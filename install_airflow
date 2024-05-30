@@ -1,0 +1,46 @@
+
+First, you need to enable Linux on Windows Server 2019 - 2022. Follow the steps mentioned here:
+
+https://learn.microsoft.com/en-us/windows/wsl/install-manual
+
+Besides this, you also might need to have Microsoft Build Tools for Visual Studio installed on your windows computer. You may install it following the steps here:
+
+https://www.scivision.co/python-windows-visual-c++-14-required/
+
+Once you have both these, run the following commands in the Linux terminal mentioned here to installing Apache Superset:
+
+source: https://superset.apache.org/docs/installation/installing-superset-from-scratch
+
+sudo apt-get install build-essential libssl-dev libffi-dev python3-dev python3-pip libsasl2-dev libldap2-dev
+
+python3 -m pip install virtualenv
+
+python3 -m venv superset
+
+. superset/bin/activate
+
+python3 -m pip install apache-superset
+
+superset db upgrade
+
+#after running above command if you get dataclass module missing error: run the following command, and then give the above command again:
+
+pip install dataclasses
+
+export FLASK_APP=superset
+
+superset fab create-admin
+
+#provide credentials
+
+superset load_examples
+
+superset init
+
+superset run -p 8088 --with-threads --reload --debugger
+
+Now you should be able to access apache superset at: http://127.0.0.1:8088/login/
+
+If you want to connect apache superset with MSSQL database, then you need to follow the steps mentioned here to install ODBC driver first:
+
+https://learn.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15
