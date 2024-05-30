@@ -1,0 +1,52 @@
+To run Gunicorn as a service on Windows Server, you typically face a challenge since Gunicorn does not natively support Windows. However, there are alternatives and workarounds you can use to run your Airflow webserver with similar functionality on Windows Server. One common approach is to use Waitress, a production-quality pure-Python WSGI server that supports Windows.
+
+Step 1: Install Waitress
+First, make sure you have Python and Apache Airflow installed in your environment. Then, you can install Waitress. If you're using a virtual environment, ensure it's activated:
+
+pip install waitress
+
+Step 2: Set Up Airflow to Run with Waitress
+After installing Waitress, you can run the Airflow webserver with it. Here's how to start the Airflow web application using Waitress:
+
+Create a Python Script to Launch Airflow with Waitress:
+
+Create a new Python script named start_airflow.py in your Airflow directory (where your airflow.cfg is located).
+Add the following code to start_airflow.py
+from airflow.www.app import create_app
+from waitress import serve
+
+app = create_app()
+serve(app, host='0.0.0.0', port=8080)
+
+Run the Script:
+
+You can start the server by running the script:
+
+python start_airflow.py
+
+
+Step 3: Run as a Windows Service
+To ensure the Airflow webserver starts at boot and runs continuously, you can set it up as a Windows service using NSSM (the Non-Sucking Service Manager).
+
+Download and Install NSSM:
+
+Download NSSM from NSSM - the Non-Sucking Service Manager.
+Extract it and place it somewhere in your PATH or use the full path to the nssm.exe when setting up the service.
+Create the Windows Service with NSSM:
+
+Open Command Prompt as Administrator.
+Use NSSM to create a new service for Airflow:
+
+nssm install AirflowWebserver
+nssm set AirflowWebserver Application C:\Path\To\Your\Python\python.exe
+nssm set AirflowWebserver AppDirectory C:\Path\To\Airflow
+nssm set AirflowWebserver AppParameters C:\Path\To\Airflow\start_airflow.py
+nssm start AirflowWebserver
+
+
+Replace C:\Path\To\Your\Python\python.exe with the path to your Python executable, and C:\Path\To\Airflow with the path to your Airflow directory.
+
+Manage the Service:
+
+You can start, stop, and restart the service using NSSM commands or through the Windows Services Manager (services.msc).
+This setup will allow you to run Apache Airflow's webserver reliably on a Windows Server, using Waitress as a WSGI server compatible with Windows. It's a suitable alternative to Gunicorn for Windows environments.
