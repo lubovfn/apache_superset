@@ -44,3 +44,27 @@ Now you should be able to access apache superset at: http://127.0.0.1:8088/login
 If you want to connect apache superset with MSSQL database, then you need to follow the steps mentioned here to install ODBC driver first:
 
 https://learn.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15
+pip install Cmake
+4
+
+Я столкнулся с той же ошибкой при попытке запустить скрипт SikuliX на ПК с Windows 10. Вот как я это решил:
+
+Загрузите и запустите инструменты сборки C++: https://visualstudio.microsoft.com/visual-cpp-build-tools/
+https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
+
+Откройте и выберите вкладку «Отдельные компоненты» и установите MSVC — v140 VS2015 C++ Build Tools (v14.00), а также Windows 10 SDK, например 10.0.20348.0.
+
+Добавьте новое значение в переменную среды PATH: C:\Program Files (x86)\Windows Kits\10\bin\x64.
+
+Скопируйте файл rc.exe& rcdll.dllиз
+
+C:\Program Files (x86)\Windows Kits\10\bin\10.0.20348.0\x64
+
+к
+
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin
+
+Теперь выполните команду, которая ранее вызывала ошибку:
+python setup.py bdist_wheel не был запущен успешно.
+
